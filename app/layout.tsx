@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Nunito } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
-
-const manrope = Manrope({
+const nunito = Nunito({
   subsets: ["latin"],
   variable: "--font-manrope",
 });
@@ -25,7 +24,7 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body
           suppressHydrationWarning
-          className={`${manrope.variable} antialiased`}
+          className={`${nunito.className} antialiased`}
         >
           <ThemeProvider
             attribute="class"
