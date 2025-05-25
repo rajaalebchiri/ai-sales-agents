@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, CloudLightningIcon } from "lucide-react";
 import PurpleIcon from "../PurpleIcon";
 import CreateWebinarButton from "../CreateWebinarButton";
-import { ModeToggle } from "@/components/ModeToggle";
 
 type Props = { user: User };
 
@@ -21,7 +20,7 @@ function Header({}: Props) {
         <Button
           className="bg-primary/10 border border-border rounded-xl"
           variant={"outline"}
-          onClick={() => router.push("/webinar")}
+          onClick={() => router.push("/webinars")}
         >
           <ArrowLeft /> Back to Webinars
         </Button>
@@ -29,14 +28,14 @@ function Header({}: Props) {
         <div className="px-4 py-2 flex justify-center text-bold items-center rounded-xl bg-background border border-border text-primary capitalize">
           {pathname.split("/")[1]}
         </div>
-          )}
-          {/* TODO build stripe subscription and create webinar button */}
-          <div className="flex gap-6 items-center flex-wrap">
-              <PurpleIcon>
-                  <CloudLightningIcon />
-              </PurpleIcon>
+      )}
+      {/* TODO build stripe subscription and create webinar button */}
+      <div className="flex gap-6 items-center flex-wrap">
+        <PurpleIcon>
+          <CloudLightningIcon />
+        </PurpleIcon>
 
-              <CreateWebinarButton />
+        <CreateWebinarButton />
       </div>
     </div>
   );

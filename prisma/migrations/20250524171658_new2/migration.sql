@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Webinar" ALTER COLUMN "endTime" DROP NOT NULL,
+ALTER COLUMN "duration" SET DEFAULT 0;

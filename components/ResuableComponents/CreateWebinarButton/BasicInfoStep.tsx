@@ -7,17 +7,22 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useWebinarStore } from "@/store/useWebinarStore";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Clock, Upload } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
 
-type Props = {};
-
-const BasicInfoStep = (props: Props) => {
+const BasicInfoStep = () => {
   const { formData, updateBasicInfoField, getStepValidationErrors } =
     useWebinarStore();
 
@@ -31,19 +36,23 @@ const BasicInfoStep = (props: Props) => {
     updateBasicInfoField(name as keyof typeof formData.basicInfo, value);
   };
 
-    const errors = getStepValidationErrors("basicInfo");
-    
-    const handleDateChange = (newDate: Date | undefined) => {
-        updateBasicInfoField('date', newDate);
-        if (newDate) {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            if (newDate < today) {
-                toast.error("Webinar date cannot be in the past");
-                console.log("Webinar date cannot be in the past");
-            }
-        }
+  const errors = getStepValidationErrors("basicInfo");
+
+  const handleDateChange = (newDate: Date | undefined) => {
+    updateBasicInfoField("date", newDate);
+    if (newDate) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (newDate < today) {
+        toast.error("Webinar date cannot be in the past");
+        console.log("Webinar date cannot be in the past");
+      }
     }
+  };
+
+  const handleTimeFormatChange = (value: string) => {
+    updateBasicInfoField("timeFormat", value as "AM" | "PM");
+  };
 
   return (
     <div className="space-y-6">
@@ -126,7 +135,58 @@ const BasicInfoStep = (props: Props) => {
               />
             </PopoverContent>
           </Popover>
+          {errors.date && <p className="text-sm text-red-400">{errors.date}</p>}
         </div>
+        <div className="space-y-2">
+          <Label className={errors.time ? "text-red-400" : ""}>
+            Webinar Time <span className="text-red-400">*</span>
+          </Label>
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Clock className="absolute left-3 top-2.5 h-4 w-4 text-foreground" />
+              <Input
+                name="time"
+                value={time || ""}
+                onChange={handleChange}
+                placeholder="12:00"
+                className={cn(
+                  "pl-9 !bg-background/50 border border-input",
+                  errors.time && "border-red-400 focus-visible:ring-red-400"
+                )}
+              />
+            </div>
+            <Select
+              value={timeFormat || "AM"}
+              onValueChange={handleTimeFormatChange}
+            >
+              <SelectTrigger className="w-20 !bg-background/50 border border-input">
+                <SelectValue placeholder="AM" />
+              </SelectTrigger>
+              <SelectContent className="!bg-background border border-input">
+                <SelectItem value="AM">AM</SelectItem>
+                <SelectItem value="PM">PM</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          {errors.time && <p className="text-sm text-red-400">{errors.time}</p>}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 text-sm text-gray-400 mt-4">
+        <div className="flex items-center">
+          <Upload className="h-4 w-4 mr-2" />
+          Uploadig a video makes this webinar pre-recorded
+        </div>
+        <Button
+          variant={"outline"}
+          className="mt-auto relative border border-input hover:bg-background"
+        >
+          Upload File
+          <Input
+            className="absolute inset-0 opacity-0 cursor-pointer"
+            type="file"
+          />
+        </Button>
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState } from "react";
@@ -11,10 +12,11 @@ import { useWebinarStore } from "@/store/useWebinarStore";
 import { PlusIcon } from "lucide-react";
 import MultiStepForm from "./MultiStepForm";
 import BasicInfoStep from "./BasicInfoStep";
+import CTAStep from "./CTAStep";
+import AdditionalInfoStep from "./AdditionalInfoStep";
 
-type Props = {};
 
-function CreateWebinarButton({}: Props) {
+function CreateWebinarButton() {
   const { isModalOpen, setModalOpen, isComplete, setComplete } =
     useWebinarStore();
 
@@ -27,6 +29,19 @@ function CreateWebinarButton({}: Props) {
       description: "Please fill out the standard info needed for your webinar",
       component: <BasicInfoStep />,
     },
+    {
+      id: "cta",
+      title: "CTA",
+      description:
+        "Please provide the end-point for your customers through your webinar",
+      component: <CTAStep assistants={[]} stripeProducts={[]} />,
+    },
+    {
+      id: "additionalInfo",
+      title: "Additional Information",
+      description: "Please fill out information about additional options if necessary",
+      component: <AdditionalInfoStep />,
+    }
   ];
 
   const handleComplete = (webinarId: string) => {
